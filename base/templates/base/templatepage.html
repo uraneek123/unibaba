@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <script src="https://cdn.tailwindcss.com"></script> <!--This shit gives you pre implemented css classes-->
+
+        <title>{% block title %}{% endblock %} | Unibaba </title>
+    </head>
+
+    <body>
+        <!-- The class= stuff uses tailwind, u can randomly specify properties as seen below-->
+        <!--Edit this stuff to make webpage look nicer-->
+        <nav class="py-6 px-6 flex justify-between items-center border-b border-gray-200">
+            <a href="/" class=""text-xl font-semibold">UNIBABA</a>
+
+            <div class="space-x-6">
+                <a href="{% url 'item:new' %}" class="text-lg font-semibold hover:text-gray-500">Add a new item</a> <!--THe href = # means unimplemented functions-->
+                <a href="{% url 'item:items' %}" class="text-lg font-semibold hover:text-gray-500">Search for items</a>
+
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'conversation:inbox' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Inbox</a>
+                    <a href="{% url 'dashboard:index' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Dashboard</a>
+                {% else %}
+                    <a href="{% url 'base:signup' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Sign up</a>
+                    <a href="{% url 'base:login' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Log in</a>
+                {% endif %}    
+            </div>
+        </nav>
+        <div class="px-6 py-6"> <!--This is a class from tailwind-->
+            {% block content %}
+            {% endblock %} <!--This allows u to modify the templatepage and add other html+css components-->
+        </div>
+
+        <footer class="py-6 px-6 flex justify-between bg-gray-800">
+            <div class="w-2/3 pre-10">
+                <h3 class="mb-5 font-semibold text-gray-400">About Unibaba</h3>
+
+                <p class="text-lg text-gray-500">ADD SOME RANODM SHBIT HERE</p>
+            </div>
+
+            <div class="w-1/3">
+                <h3 class="mb-5 font-semibold text-gray-400">Menu</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
+                    <!---This is how you modify hrefs to link to different pages (see market/manage.py)-->
+                    <li><a href="{% url 'base:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a></li>
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Privacy policy</a></li>
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Terms of use</a></li>
+                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Ur mother</a></li> 
+                </ul>
+
+            </div>
+        </footer>
+    </body>
+
+</html>
