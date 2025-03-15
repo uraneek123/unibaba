@@ -3,55 +3,123 @@
 {% block title %}{{ item.name }}{% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-5 gap-6">
-    <div class="col-span-3">
-        <img src="{{ item.image.url }}" class="rounded.txt">
+<div class="grid sm:grid-cols-1 md:grid-cols-[590px_1fr] gap-4 items-stretch">
+    <!-- Image Section -->
+    <div class="flex items-center justify-center w-[590px] h-full shadow-md">
+        <img src="{{ item.image.url }}" class=" border-purple-400 hover:border-purple-500 transition-transform duration-300 hover:scale-105 hover:shadow-xl rounded-xl rounded-lg object-contain w-full h-full border-2 border-gray-500 border-opacity-90">
     </div>
 
-    <div class="col-span-6 p-6 bg-gray-100 rounded-xl">
-        <h1 class="mb-6 text-3xl"> {{ item.name }}</h1>
-        <p class="text-gray-500"><strong>Price: </strong>{{ item.price }}</p> <!--show price and username of person who created item-->
-        <p class="text-gray-500"><strong>Seller: </strong>{{ item.created_by.username }}</p>
-
-        {% if item.description %}
-
-            <p class="text-gray-700">
-                <strong class="text-gray-500">Description</strong><br>
-                {{ item.description }}
+    <!-- Text Content Section -->
+    <div class="border-2 border-purple-400 p-6 bg-slate-200 rounded-xl flex flex-col justify-between h-full shadow-md">
+        <div>
+            <h1 class="mb-4 text-3xl font-bold opacity-80">{{ item.name }}</h1>
+            <p class="text-gray-500 text-2xl"><strong>Price: </strong>{{ item.price }}</p>
+            <p class="text-gray-500 text-2xl"><strong>Seller: </strong>{{ item.created_by.username }}</p>
+            <!-- Seller Rating with Dynamic Stars -->
+            <p class="text-gray-500 text-2xl flex items-center">
+                <strong>Seller Rating: </strong>
+                <!-- 3 IS A PLACEHOLDER implement actual values later -->
+                <span class="ml-2 text-yellow-500" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);">
+                    {% for _ in ''|rjust:3 %} ★ {% endfor %}
+                </span>
+                <span class="ml-1 text-gray-300" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);">
+                    {% for _ in ''|rjust:2 %} ★ {% endfor %}
+                </span>
             </p>
+            
+            {% if item.description %}
+                <p class="text-gray-700 mt-3">
+                    <strong class="text-gray-500 text-xl">Description</strong><br>
+                    {{ item.description }}
+                </p>
+            {% endif %}
+        </div>
 
-        {% endif %}
+        <!-- 🗺️ Map Section (Bottom-right) -->
+        <div class=" shadow-md relative w-[300px] h-[300px] rounded-full overflow-hidden border-2 border-opacity-80 border-purple-400 ml-auto">
+            <div id="map" class="w-full h-full"></div>
+        </div>
 
         {% if request.user == item.created_by %}
-        <div class="mt-6 p-6 bg-white rounded-xl">
-            <p>This is your item!</p>
-            <a href="{% url 'item:edit' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Edit</a>
-            <a href="{% url 'item:delete' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">Delete</a>
+        <div class=" mt-6 p-6 bg-white rounded-xl shadow-lg">
+            <p class="font-semibold text-2xl">This is your item!</p>
+        
+            <div class="mt-4 flex">
+                <a href="{% url 'item:edit' item.id %}" 
+                   class="text-center px-6 py-2 w-30 text-lg font-semibold bg-teal-500 text-white rounded-lg shadow-md 
+                          transition duration-300 ease-in-out hover:bg-teal-600 hover:shadow-lg">
+                    Edit
+                </a>
+                <div class="w-6"></div> <!-- Small gap before Delete -->
+                <a href="{% url 'item:delete' item.id %}" 
+                   class="text-center px-6 py-2 w-30 text-lg font-semibold bg-red-500 text-white rounded-lg shadow-md 
+                          transition duration-300 ease-in-out hover:bg-red-600 hover:shadow-lg">
+                    Delete
+                </a>
+            </div>
         </div>
         {% else %}
-            <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Contact Seller</a>
+            <a href="{% url 'conversation:new' item.id %}" class="hover:bg-teal-700 rounded-lg shadow-xl
+            transition duration-300 ease-in-out hover:bg-red-600 hover:shadow-lg inline-block mt-4 px-6 py-3 
+            text-lg font-semibold bg-teal-500 text-white rounded-xl" >Contact Seller</a>
         {% endif %}
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the map at UNSW (Sydney)
+        var map = L.map('map', {
+            center: [-33.9173, 151.2313], // UNSW coordinates
+            zoom: 15,
+            zoomControl: false, // Remove zoom buttons (optional)
+            dragging: true, // Disable dragging (optional)
+            scrollWheelZoom: true, // Disable scroll zoom (optional)
+            attributionControl: false
+        });
+    
+        // Add a grayscale tile layer
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+            subdomains: 'abcd',
+            maxZoom: 20
+        }).addTo(map);
+    
+        // Add a marker at UNSW
+        L.marker([-33.9173, 151.2313]).addTo(map)
+            .bindPopup("Item Location 📍")
+            .openPopup();
+    
+        // Ensure the map resizes properly
+        setTimeout(() => {
+            map.invalidateSize();
+        }, 300);
+    });
+</script>
+
+
+
 <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
     <h2 class="mb-12 text-2xl text-center">Related Items</h2>
 
-    <div class="grid grid-cols-3 gap-3">
+    <div class="flex flex-wrap gap-3 justify-center">
         {% for item in related_items %}
-            <div>
-                <a href="{% url 'item:detail' item.id %}">
+            <div class="w-1/3 flex flex-col h-full">
+                <a href="{% url 'item:detail' item.id %}" 
+                   class="h-full flex flex-col transform transition-transform duration-300 hover:scale-105 hover:shadow-xl 
+                          border-2 border-purple-300 hover:border-purple-500 rounded-xl">
                     <div>
-                        <img src="{{ item.image.url }}" class="rounded-t-xl">
+                        <img src="{{ item.image.url }}" class="rounded-t-xl w-full">
                     </div>
 
-                    <div class="p-6 bg-white rounded-b-xl">
-                        <h2 class="text-2xl">{{ item.name }}</h2>
+                    <div class="border-t-2 border-purple-400 p-6 bg-white rounded-b-xl flex-1 flex flex-col text-center">
+                        <h2 class="text-2xl font-semibold">{{ item.name }}</h2>
                         <p class="text-gray-500">Price: {{ item.price }}</p>
                     </div>
-
                 </a>
             </div>
         {% endfor %}
     </div>
 </div>
+
+
 {% endblock %}
