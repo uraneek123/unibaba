@@ -16,37 +16,58 @@
         <!-- The class= stuff uses tailwind, u can randomly specify properties as seen below-->
         <!--Edit this stuff to make webpage look nicer-->
         <nav class="font-sans py-6 px-8 flex justify-between items-center border-b border-gray-200">
-            <a href="/">
-                <img src="{% static 'unibaba.svg' %}" alt="unibaba" class="h-12 w-auto px-6"/>
-              </a>
-            
-            <!-- <a href="/" class="text-2xl font-bold">Unibaba</a>-->
-            <form class="max-w-2xl  w-full mx-full "> 
-                <a href={% url 'item:items' %}></a>
-                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
-                <div class="relative">
-              
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                        </svg>
+            <div class="flex items-center space-x-4 w-full">
+                <a href="/">
+                    <img src="{% static 'unibaba.svg' %}" alt="unibaba" class="h-12 w-full min-w-[171px] px-6"/>
+                  </a>
+                
+                <!-- <a href="/" class="text-2xl font-bold">Unibaba</a>-->
+                <form class="max-w-2xl  w-full pl-4 "> 
+                    <a href={% url 'item:items' %}></a>
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                  
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" id="default-search" class=" outline-gray-500/50 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-black-500 focus:border-black-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Search for items..." required />
+                        <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
-                    <input type="search" id="default-search" class=" outline-gray-500/50 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-black-500 focus:border-black-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Search for items..." required />
-                    <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
-                </div>
-              
-             </form>
-  
-  
+                  
+                 </form>
+            </div>
 
-            <div class="space-x-3.5">
+            <div class="flex items-center space-x-3.5">
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'item:new' %}" class="text-lg font-semibold hover:text-gray-500">Add a new item</a> <!--THe href = # means unimplemented functions-->
-                    <a href="{% url 'conversation:inbox' %}" class="px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Inbox</a>
-                    <a href="{% url 'dashboard:index' %}" class="px-6 py-3 text-lg font-semibold bg-gray-500 text-white rounded-xl hover:bg-gray-700">Dashboard</a>
+                    <a href="{% url 'item:new' %}" class="px-8 py-2 whitespace-nowrap text-lg font-semibold text-white shadow-md rounded-md bg-violet-500 hover:bg-violet-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Sell an item</a>
+                    <a href="{% url 'conversation:inbox' %}" class="relative block text-gray-700 hover:text-indigo-300 transition-all duration-200 w-8 h-8">
+                        <svg class="w-full ml-1 h-full absolute top-[-4px] left-[-4px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.4-1.4a7 7 0 00-12.2-5.2M9 17H4l1.4-1.4a7 7 0 0112.2-5.2M12 23a2 2 0 002-2H10a2 2 0 002 2z"/>
+                        </svg>
+                    </a>
+                    <!-- pfp -->
+                    <div class="relative">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full cursor-pointer" id="profilePic">
+                          <!-- placeholder for profile pic -->
+                        </div>
+                  
+                        <!-- Dropdown menu -->
+                        <div id="dropdown" class="absolute right-0 mt-2 w-40 bg-white shadow-lg rounded-md opacity-0 transform scale-95 pointer-events-none transition-all duration-300 ease-out">
+                          <ul>
+                            <li><a href="{% url 'dashboard:index' %}" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">Dashboard</a></li>
+                            <li><a href="#" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">Profile</a></li>
+                            <li><a href="#" class="block px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-200">Log out</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+            
+
                 {% else %}
-                    <a href="{% url 'base:login' %}" class="px-8 py-2.5 text-lg font-semibold text-white shadow-md rounded-md bg-emerald-500 hover:bg-emerald-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Log in</a>
-                    <a href="{% url 'base:signup' %}" class="px-7 py-2.5 text-lg font-semibold text-white shadow-md rounded-md bg-teal-500 hover:bg-teal-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Sign up</a>
+                    <a href="{% url 'base:login' %}" class="px-8 py-2.5 whitespace-nowrap text-lg font-semibold text-white shadow-md rounded-md bg-emerald-500 hover:bg-emerald-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Log in</a>
+                    <a href="{% url 'base:signup' %}" class="px-7 py-2.5 whitespace-nowrap text-lg font-semibold text-white shadow-md rounded-md bg-teal-500 hover:bg-teal-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Sign up</a>
                 {% endif %}    
             </div>
         </nav>
@@ -77,4 +98,22 @@
         </footer>
     </body>
 
+    <script>
+        // pfp toggle drop down
+        document.getElementById('profilePic').addEventListener('click', function() {
+          const dropdown = document.getElementById('dropdown');
+          dropdown.classList.toggle('opacity-100');
+          dropdown.classList.toggle('scale-100');
+          dropdown.classList.toggle('pointer-events-auto');
+        });
+      
+        // close drop down if clicked outside
+        document.addEventListener('click', function(event) {
+          const dropdown = document.getElementById('dropdown');
+          const profilePic = document.getElementById('profilePic');
+          if (!profilePic.contains(event.target)) {
+            dropdown.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
+          }
+        });
+    </script>
 </html>
