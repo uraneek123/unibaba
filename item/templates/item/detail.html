@@ -3,36 +3,54 @@
 {% block title %}{{ item.name }}{% endblock %}
 
 {% block content %}
-<div class="grid grid-cols-5 gap-6">
-    <div class="col-span-3">
-        <img src="{{ item.image.url }}" class="rounded.txt">
+<div class="grid sm:grid-cols-1 md:grid-cols-[590px_1fr] gap-4 items-stretch">
+    <!-- Image Section -->
+    <div class="flex items-center justify-center w-[590px] h-full">
+        <img src="{{ item.image.url }}" class="rounded-lg object-contain w-full h-full border-2 border-gray-500 border-opacity-90">
     </div>
 
-    <div class="col-span-6 p-6 bg-gray-100 rounded-xl">
-        <h1 class="mb-6 text-3xl"> {{ item.name }}</h1>
-        <p class="text-gray-500"><strong>Price: </strong>{{ item.price }}</p> <!--show price and username of person who created item-->
-        <p class="text-gray-500"><strong>Seller: </strong>{{ item.created_by.username }}</p>
+    <!-- Text Content Section -->
+    <div class="p-6 bg-slate-200 rounded-xl flex flex-col justify-between h-full">
+        <div>
+            <h1 class="mb-4 text-3xl">{{ item.name }}</h1>
+            <p class="text-gray-500"><strong>Price: </strong>{{ item.price }}</p>
+            <p class="text-gray-500"><strong>Seller: </strong>{{ item.created_by.username }}</p>
 
-        {% if item.description %}
+            {% if item.description %}
+                <p class="text-gray-700 mt-3">
+                    <strong class="text-gray-500">Description</strong><br>
+                    {{ item.description }}
+                </p>
+            {% endif %}
+        </div>
 
-            <p class="text-gray-700">
-                <strong class="text-gray-500">Description</strong><br>
-                {{ item.description }}
-            </p>
-
-        {% endif %}
+        <!-- 🗺️ Map Section (Bottom-right) -->
+        <div class="relative w-[300px] h-[300px] rounded-full overflow-hidden border-2 border-opacity-50 border-indigo-500 ml-auto">
+            <div id="map" class="w-full h-full"></div>
+        </div>
 
         {% if request.user == item.created_by %}
         <div class="mt-6 p-6 bg-white rounded-xl">
             <p>This is your item!</p>
-            <a href="{% url 'item:edit' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">Edit</a>
-            <a href="{% url 'item:delete' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">Delete</a>
+            <div class="mt-6 p-6 bg-white rounded-xl flex space-x-4">
+                <a href="{% url 'item:edit' item.id %}" 
+                   class="inline-block px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl">
+                   Edit
+                </a>
+                <a href="{% url 'item:delete' item.id %}" 
+                   class="inline-block px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">
+                   Delete
+                </a>
+            </div>
         </div>
         {% else %}
-            <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Contact Seller</a>
+            <a href="{% url 'conversation:new' item.id %}" class="inline-block mt-4 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Contact Seller</a>
         {% endif %}
     </div>
 </div>
+
+
+
 <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
     <h2 class="mb-12 text-2xl text-center">Related Items</h2>
 
@@ -51,6 +69,36 @@
 
                 </a>
             </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Initialize the map at UNSW (Sydney)
+                    var map = L.map('map', {
+                        center: [-33.9173, 151.2313], // UNSW coordinates
+                        zoom: 15,
+                        zoomControl: false, // Remove zoom buttons (optional)
+                        dragging: true, // Disable dragging (optional)
+                        scrollWheelZoom: true, // Disable scroll zoom (optional)
+                        attributionControl: false
+                    });
+                
+                    // Add a grayscale tile layer
+                    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                        attribution: '&copy; <a href="https://carto.com/">CARTO</a>',
+                        subdomains: 'abcd',
+                        maxZoom: 20
+                    }).addTo(map);
+                
+                    // Add a marker at UNSW
+                    L.marker([-33.9173, 151.2313]).addTo(map)
+                        .bindPopup("Item Location 📍")
+                        .openPopup();
+                
+                    // Ensure the map resizes properly
+                    setTimeout(() => {
+                        map.invalidateSize();
+                    }, 300);
+                });
+            </script>
         {% endfor %}
     </div>
 </div>
