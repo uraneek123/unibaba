@@ -11,3 +11,5 @@ def index(request):
         'items': items,
     })
 
+def profile(request):
+    return render(request, "dashboard/profile.html")  # Renders the profile page

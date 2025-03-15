@@ -31,3 +31,4 @@ def signup(request):
     return render(request, 'base/signup.html', {
         'form':form
     })
+
