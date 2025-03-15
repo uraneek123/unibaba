@@ -3,7 +3,7 @@
 {% block title %}{{ title }} {% endblock %}
 
 {% block content %}
-<h1 class="mb-6 text-3xl">{{ title }}</h1>
+<h1 class="mb-6 text-3xl font-bold">{{ title }}</h1>
 
 <form method="post" action="." enctype="multipart/form-data">
     {% csrf_token %}
@@ -22,7 +22,7 @@
             </div>
     {% endif %}
 
-    <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
+    <button class="w-full bg-indigo-700 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-indigo-800 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Submit</button>
 
 </form>
 
