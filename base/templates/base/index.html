@@ -1,3 +1,4 @@
+
 {% extends 'base/templatepage.html' %}
 
 <!--Extend the template page and add ur stuff to avoid copy pasting-->
@@ -5,7 +6,137 @@
 {% block title %}Welcome to Unibaba{% endblock %}
 
 {% block content %}
-    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+
+<div class="flex">
+    <!-- Sidebar + category -->
+    <div class="w-60 text-black p-4">
+      <h2 class="text-xl font-bold mb-4">Filters</h2>
+
+      <div class="max-w-sm mx-auto mt-3">
+
+        <div id="toggle-btn" class="cursor-pointer text-black flex items-center space-x-2">
+
+          <span class="text-lg font-semibold">Category</span>
+
+          <svg id="arrow-icon" class="h-5 w-5 transition-transform duration-300 transform rotate-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+    
+
+        <div id="collapsible-section" class="mt-4 p-4 bg-white rounded-md shadow-md hidden transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
+            <ul>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Clothing</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Food</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Textbooks</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Electronics</label></li>
+              </ul>
+        </div>
+      </div>
+    
+      <script>
+ 
+        const toggleBtn = document.getElementById("toggle-btn");
+        const collapsibleSection = document.getElementById("collapsible-section");
+        const arrowIcon = document.getElementById("arrow-icon");
+    
+        toggleBtn.addEventListener("click", function() {
+          collapsibleSection.classList.toggle("hidden");
+          
+          collapsibleSection.style.maxHeight = collapsibleSection.classList.contains("hidden") ? "0" : "500px";
+          
+          arrowIcon.classList.toggle("rotate-180");
+        });
+      </script>
+    
+  
+      <!-- price range -->
+      <div class="max-w-sm mx-auto mt-3">
+        <div id="toggle-btn1" class="cursor-pointer text-black flex items-center space-x-2">
+          <span class="text-lg font-semibold">Price Range</span>
+          <svg id="arrow-icon1" class="h-5 w-5 transition-transform duration-300 transform rotate-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+    
+        <div id="collapsible-section1" class="mt-4 p-4 bg-white rounded-md shadow-md hidden transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
+            <ul>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$0 - $50</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$50 - $150</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$150 - $300</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$300 and above </label></li>
+              </ul>
+        </div>
+      </div>
+    
+      <script>
+        const toggleBtn1 = document.getElementById("toggle-btn1");
+        const collapsibleSection1 = document.getElementById("collapsible-section1");
+        const arrowIcon1 = document.getElementById("arrow-icon1");
+    
+        toggleBtn1.addEventListener("click", function() {
+          collapsibleSection1.classList.toggle("hidden");
+          collapsibleSection1.style.maxHeight = collapsibleSection1.classList.contains("hidden") ? "0" : "500px";
+          
+          arrowIcon1.classList.toggle("rotate-180");
+        });
+      </script>
+  
+      <!-- condition -->
+      <div class="max-w-sm mx-auto mt-3">
+        <div id="toggle-btn2" class="cursor-pointer text-black flex items-center space-x-2">
+          <span class="text-lg font-semibold">Condition</span>
+          <svg id="arrow-icon2" class="h-5 w-5 transition-transform duration-300 transform rotate-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </div>
+
+        <div id="collapsible-section2" class="mt-4 p-4 bg-white rounded-md shadow-md hidden transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
+            <ul>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">New</label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Used - like new </label></li>
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Used</label></li>
+              </ul>
+        </div>
+      </div>
+    
+      <script>
+        const toggleBtn2 = document.getElementById("toggle-btn2");
+        const collapsibleSection2 = document.getElementById("collapsible-section2");
+        const arrowIcon2 = document.getElementById("arrow-icon2");
+
+        toggleBtn2.addEventListener("click", function() {
+
+          collapsibleSection2.classList.toggle("hidden");
+          
+
+          collapsibleSection2.style.maxHeight = collapsibleSection2.classList.contains("hidden") ? "0" : "500px";
+          
+ 
+          arrowIcon2.classList.toggle("rotate-180");
+        });
+      </script>
+  
+      <!-- reset filters button -->
+      <button id='clear-filters-btn' class="w-full bg-red-500 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-red-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Clear All Filters</button>
+    </div>
+
+    <script>
+        function resetAllCheckboxes() {
+          const checkboxes = document.querySelectorAll('.filter-checkbox');
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+        }
+    
+        const clearFiltersButton = document.getElementById('clear-filters-btn');
+        clearFiltersButton.addEventListener('click', resetAllCheckboxes);
+    </script>
+  
+    <!-- Main Content -->
+    <div class="flex-1 p-6">
+      <h1 class="text-2xl">Products</h1>
+      <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Newest Items</h2>
 
         <div class="grid grid-cols-3 gap-3">
@@ -42,4 +173,8 @@
                 {% endfor %}
             </div>
         </div>
+    </div>
+  </div>
+</div>  
+  
 {% endblock %}
