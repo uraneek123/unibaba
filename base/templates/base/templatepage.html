@@ -24,20 +24,17 @@
                   </a>
                 
                 <!-- <a href="/" class="text-2xl font-bold">Unibaba</a>-->
-                <form class="max-w-2xl  w-full pl-4 "> 
-                    <a href={% url 'item:items' %}></a>
+                <form class="max-w-2xl w-full pl-4" method="get" action="javascript:void(0);" onsubmit="event.preventDefault(); filterItems();"> 
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
-                  
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                             <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class=" outline-gray-500/50 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-black-500 focus:border-black-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Search for items..." required />
+                        <input type="search" id="default-search" name="q" class="outline-gray-500/50 block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-white-50 focus:ring-black-500 focus:border-black-500 dark:bg-white-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="Search for items..."/>
                         <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
                     </div>
-                  
                  </form>
             </div>
 
@@ -77,27 +74,6 @@
             {% block content %}
             {% endblock %} <!--This allows u to modify the templatepage and add other html+css components-->
         </div>
-
-        <footer class="font-sans py-6 px-6 flex justify-between bg-gray-800">
-            <div class="w-2/3 pre-10">
-                <h3 class="mb-5 font-semibold text-gray-400">About Unibaba</h3>
-
-                <p class="text-lg text-gray-500">ADD SOME RANODM SHBIT HERE</p>
-            </div>
-
-            <div class="w-1/3">
-                <h3 class="mb-5 font-semibold text-gray-400">Menu</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">About</a></li>
-                    <!---This is how you modify hrefs to link to different pages (see market/manage.py)-->
-                    <li><a href="{% url 'base:contact' %}" class="text-lg text-teal-500 hover:text-teal-700">Contact</a></li>
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Privacy policy</a></li>
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Terms of use</a></li>
-                    <li><a href="#" class="text-lg text-teal-500 hover:text-teal-700">Ur mother</a></li> 
-                </ul>
-
-            </div>
-        </footer>
     </body>
 
     <script>
@@ -117,5 +93,36 @@
             dropdown.classList.remove('opacity-100', 'scale-100', 'pointer-events-auto');
           }
         });
+        
+        
+        function filterItems() {
+            const query = document.getElementById('default-search').value.toLowerCase();
+            const items = document.querySelectorAll('.product-item');
+            const header = document.getElementById('new-items-header');
+            const noResultsText = document.getElementById('no-results');
+
+            let anyVisible = false;
+            if (query == '') {
+                header.style.display = 'block'; // show header if search is empty
+            } else {
+                header.style.display = 'none'; // hide header when searching
+            }
+            
+
+            items.forEach(item => {
+                const name = item.getAttribute('data-name') || ''; // default to empty string if null
+                if (name.toLowerCase().includes(query)) {
+                    item.style.display = 'block';
+                    anyVisible = true;
+                } else if (name) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = 'block';
+                }
+
+            noResultsText.style.display = anyVisible ? 'none' : 'block';
+        });
+    }
+        
     </script>
 </html>
