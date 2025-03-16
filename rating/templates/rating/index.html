@@ -3,28 +3,26 @@
 {% block title %}Reviews{% endblock %}
 
 {% block content %}
-    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-2xl text-center"><Strong>Your review of the seller</Strong></h2>
+    <div class="bg-gray-100 rounded-xl flex justify-center items-center">
+        <h2 class="pb-6 pt-6 text-2xl text-center font-semibold">Your review of the seller</h2>
     </div>
 
-    {% if object%}
+
+    {% if object %}
         <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-            <h2 class="mb-12 text-2xl text-left">Your previous rating for the seller: {{object.score}} <button class="fa fa-star fa-1x my-btn checked"></button></h2>
+            <h2 class="mb-12 text-2xl text-left font-semibold">Your previous rating for the seller: {{ object.score }} <button class="fa fa-star fa-1x my-btn checked"></button></h2>
         
-        {% if object.description %}
-
-        <h2 class="mb-12 text-2xl text-left">
-            <strong class="text-black-700">Your review description: </strong><br>
-            {{ object.description }}
-        </h2>
-
-        {% endif %}
-
+            {% if object.description %}
+                <h2 class="mb-12 text-2xl text-left font-semibold">
+                    <strong class="text-black-700 mb-6 mt-6">Your review description:</strong><br>
+                    {{ object.description }}
+                </h2>
+            {% endif %}
         </div>
 
         <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-            <h2 class="mb-12 text-2xl text-left">Update your rating below if desired: </h2>
-            <form class="rate-form" action="" method="POST" id="{{object.id}}">
+            <h2 class="mb-12 text-2xl text-left font-semibold">Update your rating below if desired:</h2>
+            <form class="rate-form" action="" method="POST" id="{{ object.id }}">
                 {% csrf_token %}
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
@@ -36,29 +34,25 @@
             <div id="confirm-box"></div>
         </div>
 
-        <h1 class="mb-6 text-3xl">New description</h1>
+        <h1 class="mb-6 pt-8 text-3xl font-semibold">New description</h1>
         <form method="post" action="." enctype="multipart/form-data">
             {% csrf_token %}
-
             <div class="space-y-4">
                 {{ form.as_p }}
             </div>
-            {% if form.errors or form.non_field_errors %}  
-                    <div class="mb-3 p-6 bg-red-100 rounded-xl">
-                        {% for field in form %}
-                            {{ field.errors}}
-                        {% endfor %}
-                    
-                        {{ form.non_field_errors }}
-                    </div>
+            {% if form.errors or form.non_field_errors %}
+                <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                    {% for field in form %}
+                        {{ field.errors }}
+                    {% endfor %}
+                    {{ form.non_field_errors }}
+                </div>
             {% endif %}
-                
             <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Send</button>
         </form>
-
     {% else %}
-        <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl ">
-            <form class="rate-form" action="" method="POST" id="{{object.id}}">
+        <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+            <form class="rate-form" action="" method="POST" id="{{ object.id }}">
                 {% csrf_token %}
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="first"></button>
                 <button type="submit" class="fa fa-star fa-3x my-btn" id="second"></button>
@@ -69,26 +63,25 @@
             <br>
             <div id="confirm-box"></div>
 
-            <h1 class="mb-6 text-3xl">New description</h1>
-        <form method="post" action="." enctype="multipart/form-data">
-            {% csrf_token %}
-
-            <div class="space-y-4">
-                {{ form.as_p }}
-            </div>
-            {% if form.errors or form.non_field_errors %}  
-                    <div class="mb-3 p-6 bg-red-100 rounded-xl">
+            <h1 class="mb-6 text-3xl font-semibold">New description</h1>
+            <form method="post" action="." enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="space-y-4">
+                    {{ form.as_p }}
+                </div>
+                {% if form.errors or form.non_field_errors %}
+                    <div class="mb-3 p-6 bg-red-100 rounded-xl pb-6">
                         {% for field in form %}
-                            {{ field.errors}}
+                            {{ field.errors }}
                         {% endfor %}
-                    
                         {{ form.non_field_errors }}
                     </div>
-            {% endif %}
+                {% endif %}
+                <button class=" pt-6 w-full bg-indigo-700 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-indigo-800 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">
+                    Send
+                </button>
                 
-            <button class="mt-6 py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Send</button>
-        </form>
+            </form>
         </div>
     {% endif %}
-    
 {% endblock %}
