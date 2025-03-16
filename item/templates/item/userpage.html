@@ -1,0 +1,45 @@
+{% extends 'base/templatepage.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-4xl text-center font-semibold"> {{ item.created_by.username }}'s profile</h2>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>First Name:  </Strong>{{ item.created_by.first_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Last Name:  </Strong>{{ item.created_by.last_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Email:  </Strong>{{ item.created_by.email }}</p>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-3xl text-center font-semibold">{{ item.created_by.username }}'s Items</h2>
+    
+        <div class="grid grid-cols-3 gap-3">
+            {% for item in seller_items %}
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div class="relative">
+                        
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover rounded-t-lg">
+                        </div>
+                    
+                        <div class="p-6">
+                            <h2 class="text-xl font-semibold text-gray-800">{{ item.name }}</h2>
+                            <p class="text-gray-500 mt-2">Price: ${{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <a href="{% url 'rating:index' item.created_by.id %}" 
+           class="block w-full px-6 py-3 text-lg font-semibold text-white bg-blue-400 rounded-lg text-center hover:bg-blue-500 hover:scale-102 transition-transform duration-300 transform">
+            <strong>Write a review for {{ item.created_by.username }}</strong>
+        </a>
+    </div>
+    
+    
+
+
+{% endblock %}

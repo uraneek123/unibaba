@@ -13,18 +13,13 @@
     <div class="border-2 border-purple-400 p-6 bg-slate-200 rounded-xl flex flex-col justify-between h-full shadow-md">
         <div>
             <h1 class="mb-4 text-3xl font-bold opacity-80">{{ item.name }}</h1>
-            <p class="text-gray-500 text-2xl"><strong>Price: </strong>{{ item.price }}</p>
-            <p class="text-gray-500 text-2xl"><strong>Seller: </strong>{{ item.created_by.username }}</p>
+            <p class="text-gray-500 text-2xl"><strong>Price: </strong>${{ item.price }}</p>
+            <p class="text-gray-500 text-2xl"><strong>Seller: </strong><a href="{% url 'item:getuserinfo' item.id %}"class="text-teal-500 text-2xl font-bold">{{ item.created_by.username }}</a> </p>
+            
             <!-- Seller Rating with Dynamic Stars -->
-            <p class="text-gray-500 text-2xl flex items-center">
-                <strong>Seller Rating: </strong>
-                <!-- 3 IS A PLACEHOLDER implement actual values later -->
-                <span class="ml-2 text-yellow-500" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);">
-                    {% for _ in ''|rjust:3 %} ★ {% endfor %}
-                </span>
-                <span class="ml-1 text-gray-300" style="text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);">
-                    {% for _ in ''|rjust:2 %} ★ {% endfor %}
-                </span>
+            <p class="text-gray-500 text-2xl flex items-center"><strong>Seller Rating: </strong>
+            </p>
+            <p class="text-gray-500 text-2xl flex items-center">{{average.score__avg}} <button class="fa fa-star fa-1x my-btn checked"></button>
             </p>
             
             {% if item.description %}

@@ -18,7 +18,7 @@
                         {% if member != request.user %}
                             <p class="mb-4">
                                 <strong>Member: </strong>
-                                <span class="font-semibold text-blue-500">{{ member.username }}</span> | 
+                                <a href="{% url 'item:getuserinfo' conversation.item.created_by.id%}"class="font-semibold text-blue-500">{{ member.username }}</a> | 
                                 <span class="font-semibold text-gray-500">Last updated: </span>
                                 <span class="font-semibold text-black-600">{{ conversation.modified_at }}</span>
 

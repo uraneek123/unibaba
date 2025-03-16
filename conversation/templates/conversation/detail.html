@@ -3,7 +3,9 @@
 {% block title %}Conversation{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-4 text-black p-2 ">Conversation</h1>
+
+
+<h1 class="text-3xl font-bold mb-4 text-black p-2 ">Your Conversation</h1>
 
 <div class="space-y-4">
     {% for message in conversation.messages.all %}
@@ -26,7 +28,7 @@
             {{form.as_p}}
         </div>
         <!-- Message input (right aligned) -->
-        <textarea name="message" class="w-64 h-10 p-2 text-sm text-gray-800 bg-gray-100 rounded-md resize-none" placeholder="Type your message..." required></textarea>
+        <!--<textarea name="message" class="w-64 h-10 p-2 text-sm text-gray-800 bg-gray-100 rounded-md resize-none" placeholder="Type your message..." required></textarea>-->
 
         <!-- Send button with messenger icon -->
 

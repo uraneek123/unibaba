@@ -1,11 +1,17 @@
 {% extends 'base/templatepage.html' %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}My Profile{% endblock %}
 
 {% block content %}
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
-        <h2 class="mb-12 text-3xl font-bold text-center text-gray-700">My Items</h2>
+        <h2 class="mb-12 text-4xl text-center font-semibold"> {{ theuser.username }}'s profile</h2>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>First Name: </Strong>{{ theuser.first_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Last Name: </Strong>{{ theuser.last_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Email: </Strong>{{ theuser.email }}</p>
+    </div>
 
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-3xl font-bold text-center text-gray-700">My Items</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {% for item in items %}
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
@@ -24,4 +30,36 @@
             {% endfor %}
         </div>
     </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h1 class="text-lg font-semibold">My Reviews</h1> 
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h1 class="text-lg font-semibold">Average Rating: {{average.score__avg}} <button class="fa fa-star fa-1x my-btn checked"></button></h1> 
+    </div>
+
+    <div class="grid grid-cols-3 gap-3">
+        {% for review in reviews %}
+            <div>
+                    <div class="p-6 bg-white rounded-b-xl">
+                        <h2 class="text-2xl">{{ review.score }} <button class="fa fa-star fa-1x my-btn checked"></button></h2>
+
+                        {% if review.description %}
+
+                            <h2 class="mb-12 text-2xl text-left">
+                                <strong class="text-black-700">Description</strong><br>
+                                {{ review.description }}
+                            </h2>
+
+                        {% endif %}
+                    </div>
+
+                    
+            </div>
+        {% endfor %}
+    </div>
+
+
+
 {% endblock %}
