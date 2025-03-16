@@ -12,10 +12,14 @@ from django.db.models import Avg
 def getuserinfo(request,pk):
     item = get_object_or_404(Item, pk=pk)
     seller_items = Item.objects.filter(created_by=item.created_by,is_sold=False)[0:3]
+    #change this part to get the average rating of the user
+    average = Rating.objects.filter(members__in=[request.user.id]).aggregate(Avg('score'))
     return render(request, 'item/userpage.html', {
         'item': item,
         'seller_items': seller_items,
+        'average': average,
     })
+
 
 def items(request): #getting all items that are not sold so you can browse
     query = request.GET.get('query', '')

@@ -8,6 +8,8 @@
         <p class="mb-12 text-2xl text-left font-semibold" ><Strong>First Name:  </Strong>{{ item.created_by.first_name }}</p>
         <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Last Name:  </Strong>{{ item.created_by.last_name }}</p>
         <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Email:  </Strong>{{ item.created_by.email }}</p>
+        <p class="text-2xl text-left font-semibold"><Strong>Average Rating: </Strong>{{average.score__avg}} <button class="fa fa-star fa-1x my-btn checked"></button></p> 
+
     </div>
 
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
@@ -31,6 +33,7 @@
             {% endfor %}
         </div>
     </div>
+
 
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <a href="{% url 'rating:index' item.created_by.id %}" 
