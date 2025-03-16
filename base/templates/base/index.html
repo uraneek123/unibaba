@@ -30,12 +30,10 @@
 
         <div id="collapsible-section" class="mt-4 p-4 bg-white rounded-md shadow-md hidden transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
             <ul>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Clothing</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Food</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Textbooks</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">Electronics</label></li>
-                
-              </ul>
+              {% for category in categories %}
+                <li><label><input type="checkbox" class="mr-2 filter-checkbox-cat" data-category="{{category.name}}">{{category.name}}</label></li>
+              {% endfor %}
+            </ul>
         </div>
       </div>
     
@@ -66,11 +64,14 @@
     
         <div id="collapsible-section1" class="mt-4 p-4 bg-white rounded-md shadow-md hidden transition-all duration-300 ease-in-out max-h-0 overflow-hidden">
             <ul>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$0 - $50</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$50 - $150</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$150 - $300</label></li>
-                <li><label><input type="checkbox" class="mr-2 filter-checkbox">$300 and above </label></li>
-              </ul>
+              <label class="text-lg font-medium">Min Price:  
+                <input type="number" id="min-price" class="border border-gray-300 rounded-lg p-2 w-24 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base font-normal">
+              </label>
+              
+              <label class="text-lg font-medium">Max Price:  
+                <input type="number" id="max-price" class="border border-gray-300 rounded-lg p-2 w-24 focus:outline-none focus:ring-2 focus:ring-blue-500 text-base font-normal">
+              </label>
+            </ul>
         </div>
       </div>
     
@@ -123,16 +124,18 @@
       </script>
   
       <!-- reset filters button -->
-      <button class="w-full bg-indigo-700 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-indigo-800 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Submit</button>
+      <button id='filter-button' class="w-full bg-indigo-700 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-indigo-800 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Submit</button>
       <button id='clear-filters-btn' class="w-full bg-red-500 py-2 text-white font-semibold shadow-md mt-6 rounded-xl hover:bg-red-700 transition-colors duration-300 ease-in-out focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-red-500" style="text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3)">Clear All Filters</button>
     </div>
 
     <script>
         function resetAllCheckboxes() {
-          const checkboxes = document.querySelectorAll('.filter-checkbox');
+          const checkboxes = document.querySelectorAll('.filter-checkbox-cat, .filter-checkbox');
           checkboxes.forEach(checkbox => {
             checkbox.checked = false;
           });
+          document.getElementById('min-price').value = '';
+          document.getElementById('max-price').value = '';
         }
     
         const clearFiltersButton = document.getElementById('clear-filters-btn');
@@ -147,7 +150,7 @@
         <p id="no-results" class="mb-12 text-2xl font-semibold hidden text-center">No results found</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {% for item in items %}
-            <div class="product-item bg-white rounded-lg shadow-lg overflow-hidden relative transition-transform duration-300 hover:scale-105 hover:shadow-xl" data-name="{{ item.name|lower }}">
+            <div class="product-item bg-white rounded-lg shadow-lg overflow-hidden relative transition-transform duration-300 hover:scale-105 hover:shadow-xl" data-name="{{ item.name|lower }}" data-category="{{item.category|lower}}" data-price="{{item.price|lower}}">
                     <a href="{% url 'item:detail' item.id %}">
               
                         <div class="relative">
@@ -168,6 +171,44 @@
                 </div>
             {% endfor %}
         </div>
+
+    <script>
+    document.getElementById('filter-button').addEventListener('click', filterItemsCheckbox);
+    function filterItemsCheckbox() {
+            let selectedCategories = Array.from(document.querySelectorAll('.filter-checkbox-cat:checked')).map(checkbox => checkbox.getAttribute('data-category').toLowerCase());
+
+            const items = document.querySelectorAll('.product-item');
+            const header = document.getElementById('new-items-header');
+            const noResultsText = document.getElementById('no-results');
+
+            let minPrice = parseFloat(document.getElementById('min-price').value) || 0;
+            let maxPrice = parseFloat(document.getElementById('max-price').value) || Infinity;
+
+
+            let anyVisible = false;
+            if (selectedCategories.length == 0) {
+                header.style.display = 'block'; // show header if search is empty
+            } else {
+                header.style.display = 'none'; // hide header when searching
+            }
+            
+
+            items.forEach(item => {
+                const category = item.getAttribute('data-category') || ''; // default to empty string if null
+                const price = parseFloat(item.getAttribute('data-price'));
+                let categoryMatch = selectedCategories.length == 0 || selectedCategories.includes(category);
+                let priceMatch = price >= minPrice && price <= maxPrice;
+                if (categoryMatch && priceMatch) {
+                    item.style.display = 'block';
+                    anyVisible = true;
+                } else {
+                    item.style.display = 'none';
+                }
+
+            noResultsText.style.display = anyVisible ? 'none' : 'block';
+        });
+    }
+    </script>
     
 
 {% endblock %}

@@ -22,6 +22,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from base.views import index, contact
+from rating.views import rate_image
 
 urlpatterns = [
     path('', include('base.urls')),
@@ -29,4 +30,7 @@ urlpatterns = [
     path('dashboard/', include('dashboard.urls')),
     path('inbox/', include('conversation.urls')),
     path('admin/', admin.site.urls),
+    path('rating/', include('rating.urls')),
+    path('rate/', rate_image, name='rate-view'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #also part of the sussy way to get images to load
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
