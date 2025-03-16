@@ -1,0 +1,67 @@
+{% extends 'base/templatepage.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-4xl text-center font-semibold"> {{ theuser.username }}'s profile</h2>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>First Name: </Strong>{{ theuser.first_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Last Name: </Strong>{{ theuser.last_name }}</p>
+        <p class="mb-12 text-2xl text-left font-semibold" ><Strong>Email: </Strong>{{ theuser.email }}</p>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h2 class="mb-12 text-3xl font-bold text-center text-gray-700">My Items</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {% for item in items %}
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+                    <a href="{% url 'item:detail' item.id %}">
+                        <div class="relative">
+                           
+                            <img src="{{ item.image.url }}" alt="{{ item.name }}" class="w-full h-56 object-cover rounded-t-lg">
+                        </div>
+
+                        <div class="p-6">
+                            <h2 class="text-xl font-semibold text-gray-800">{{ item.name }}</h2>
+                            <p class="text-gray-500 mt-2">Price: ${{ item.price }}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h1 class="text-lg font-semibold">My Reviews:</h1> 
+    </div>
+
+    <div class=" pt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+        {% for review in reviews %}
+            <div class="p-4 border-2 border-gray-300 rounded-lg shadow-lg">
+                <div class="p-6 bg-white rounded-xl">
+                    <h2 class="text-2xl flex items-center">
+                        {{ review.score }} 
+                        <button class="fa fa-star fa-1x my-btn checked ml-2"></button>
+                    </h2>
+    
+                    {% if review.description %}
+                        <div class="mt-4">
+                            <h2 class="text-xl text-left font-bold">Description:
+                            </h2>
+                            <p>{{ review.description }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
+        <h1 class="text-lg font-semibold">Average Rating: {{average.score__avg}} <button class="fa fa-star fa-1x my-btn checked"></button></h1> 
+    </div>
+    
+
+
+
+
+{% endblock %}
