@@ -1,0 +1,34 @@
+{% extends 'base/templatepage.html' %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-4 text-black p-3">Inbox</h1>
+
+<div class="space-y-6">
+    {% for conversation in conversations %}
+        <a href="{% url 'conversation:detail' conversation.id %}">
+            <div class="p-6 flex bg-gray-100 rounded-xl hover:bg-gray-200 ">
+                <div class="pr-6">
+                    <img src="{{ conversation.item.image.url }}" class="w-20 rounded-xl">
+                </div>
+
+                <div>
+                    {% for member in conversation.members.all %}
+                        {% if member != request.user %}
+                            <p class="mb-4">
+                                <strong>Member: </strong>
+                                <a href="{% url 'item:getuserinfo' conversation.item.id %}" class="font-semibold text-blue-500">{{ member.username }}</a> | 
+                                <span class="font-semibold text-gray-500">Last updated: </span>
+                                <span class="font-semibold text-black-600">{{ conversation.modified_at }}</span>
+                            </p>
+                            <span class="font-semibold text-gray-500">Listing: </span>
+                            <a href="{% url 'item:detail' conversation.item.id %}" class="font-semibold text-blue-500">{{ conversation.item.name }}</a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </a>
+    {% endfor %}
+</div>
+{% endblock %}

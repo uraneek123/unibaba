@@ -1,0 +1,45 @@
+{% extends 'base/templatepage.html' %}
+
+{% block title %}Conversation{% endblock %}
+
+{% block content %}
+
+
+<h1 class="text-3xl font-bold mb-4 text-black p-2 ">Your Conversation</h1>
+
+<div class="space-y-4">
+    {% for message in conversation.messages.all %}
+        <div class="flex {% if message.created_by == request.user %}justify-end{% else %}justify-start{% endif %}">
+            <!-- Message bubble -->
+            <div class="max-w-xs px-4 py-2 rounded-xl {% if message.created_by == request.user %}bg-violet-800 text-white{% else %}bg-gray-200 text-gray-800{% endif %}">
+                <p class="font-semibold">{{ message.created_by.username }} <span class="text-sm text-gray-500"> @ {{ message.created_at }}</span></p>
+                <p>{{ message.content }}</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Message input form -->
+<form method="post" action="." class="mt-6 flex justify-end items-center space-x-2">
+    {% csrf_token %}
+    <div class="flex items-center space-x-2">
+
+        <div>
+            {{form.as_p}}
+        </div>
+        <!-- Message input (right aligned) -->
+        <!--<textarea name="message" class="w-64 h-10 p-2 text-sm text-gray-800 bg-gray-100 rounded-md resize-none" placeholder="Type your message..." required></textarea>-->
+
+        <!-- Send button with messenger icon -->
+
+
+        <button type="submit" class="w-10 h-10 flex justify-center items-center bg-indigo-700 hover:bg-indigo-900 rounded-full text-white">
+            <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l18-6-6 18-6-6 6-6z"/>
+            </svg>
+        </button>
+    </div>
+ 
+</form>
+
+{% endblock %}
